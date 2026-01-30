@@ -1,7 +1,5 @@
-import { ExternalLink, Calendar } from "lucide-react";
+import { Calendar, Folder, ArrowUpRight } from "lucide-react";
 import { Badge } from "./ui/badge";
-import gearBrawlImg from "@/assets/projects/gear-brawl.png";
-import ajAutofixImg from "@/assets/projects/aj-autofix.jpg";
 
 interface Project {
   title: string;
@@ -10,7 +8,6 @@ interface Project {
   year: string;
   role: string;
   highlights: string[];
-  image?: string;
 }
 
 const projects: Project[] = [
@@ -36,19 +33,17 @@ const projects: Project[] = [
       "User-friendly interface for web and mobile platforms",
       "Notification, customer reviews and ratings, geolocation services"
     ],
-    image: ajAutofixImg,
   },
   {
     title: "Gear Brawl",
     description: "A multiplayer action game developed using Unity and C# with 3D assets created in Blender.",
     tech: ["Unity", "C#", "Blender"],
     year: "2025",
-    role: "Full Stack Developer",
+    role: "Game Developer",
     highlights: [
       "3D game development with Unity engine",
       "Custom 3D assets and animations"
     ],
-    image: gearBrawlImg,
   },
   {
     title: "Bibilibeads",
@@ -76,82 +71,88 @@ const projects: Project[] = [
 
 const ProjectsSection = () => {
   return (
-    <section id="projects" className="py-20">
-      <div className="container mx-auto px-4 md:px-6">
+    <section id="projects" className="py-24 relative overflow-hidden">
+      {/* Background decoration */}
+      <div className="absolute top-1/2 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[150px] -translate-y-1/2" />
+      
+      <div className="container mx-auto px-4 md:px-6 relative z-10">
         {/* Section Header */}
-        <div className="text-center mb-16">
-          <p className="text-primary font-mono text-sm mb-2">My Work</p>
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
+        <div className="text-center mb-20">
+          <span className="inline-block px-4 py-1.5 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4">
+            Portfolio
+          </span>
+          <h2 className="text-4xl md:text-5xl font-bold mb-6">
             Featured <span className="text-gradient">Projects</span>
           </h2>
-          <div className="w-20 h-1 bg-gradient-primary mx-auto rounded-full" />
+          <p className="text-muted-foreground max-w-2xl mx-auto">
+            A showcase of my work spanning web applications, mobile apps, and game development
+          </p>
         </div>
 
         {/* Projects Grid */}
-        <div className="grid lg:grid-cols-2 gap-6 max-w-6xl mx-auto">
+        <div className="grid lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
           {projects.map((project, index) => (
             <div
               key={project.title}
-              className="bg-card border border-border rounded-2xl overflow-hidden hover:border-primary/50 transition-all duration-300 group opacity-0 animate-fade-in-up"
+              className="group relative bg-card/50 backdrop-blur-sm border border-border rounded-3xl p-8 hover:border-primary/40 hover:bg-card/80 transition-all duration-500 opacity-0 animate-fade-in"
               style={{ animationDelay: `${0.1 + index * 0.1}s` }}
             >
-              {/* Project Image */}
-              {project.image && (
-                <div className="w-full h-48 overflow-hidden">
-                  <img 
-                    src={project.image} 
-                    alt={project.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                </div>
-              )}
+              {/* Project number badge */}
+              <div className="absolute -top-3 -left-3 w-10 h-10 rounded-xl bg-gradient-primary flex items-center justify-center text-primary-foreground font-bold text-sm shadow-lg">
+                0{index + 1}
+              </div>
               
-              <div className="p-6 md:p-8">
-                {/* Header */}
-                <div className="flex items-start justify-between mb-4">
-                  <div>
-                    <h3 className="text-xl font-bold mb-1 group-hover:text-primary transition-colors">
-                      {project.title}
-                    </h3>
-                    <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                      <span className="flex items-center gap-1">
-                        <Calendar className="w-4 h-4" />
-                        {project.year}
-                      </span>
-                      <span>•</span>
-                      <span>{project.role}</span>
-                    </div>
+              {/* Hover arrow */}
+              <div className="absolute top-6 right-6 w-10 h-10 rounded-full bg-secondary flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 group-hover:translate-x-1 group-hover:-translate-y-1">
+                <ArrowUpRight className="w-5 h-5 text-primary" />
+              </div>
+
+              {/* Header with folder icon */}
+              <div className="flex items-start gap-4 mb-5">
+                <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/20 transition-colors">
+                  <Folder className="w-7 h-7 text-primary" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-xl font-bold mb-1 group-hover:text-primary transition-colors">
+                    {project.title}
+                  </h3>
+                  <div className="flex items-center gap-3 text-sm text-muted-foreground">
+                    <span className="flex items-center gap-1.5">
+                      <Calendar className="w-3.5 h-3.5" />
+                      {project.year}
+                    </span>
+                    <span className="w-1 h-1 rounded-full bg-muted-foreground" />
+                    <span>{project.role}</span>
                   </div>
-                  <ExternalLink className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
                 </div>
+              </div>
 
-                {/* Description */}
-                <p className="text-muted-foreground mb-4 text-sm leading-relaxed">
-                  {project.description}
-                </p>
+              {/* Description */}
+              <p className="text-muted-foreground mb-5 text-sm leading-relaxed line-clamp-3">
+                {project.description}
+              </p>
 
-                {/* Highlights */}
-                <ul className="mb-6 space-y-2">
-                  {project.highlights.map((highlight, i) => (
-                    <li key={i} className="text-sm text-muted-foreground flex items-start gap-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2 flex-shrink-0" />
-                      {highlight}
-                    </li>
-                  ))}
-                </ul>
+              {/* Highlights */}
+              <ul className="mb-6 space-y-2.5">
+                {project.highlights.map((highlight, i) => (
+                  <li key={i} className="text-sm text-muted-foreground flex items-start gap-3">
+                    <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2 flex-shrink-0" />
+                    <span>{highlight}</span>
+                  </li>
+                ))}
+              </ul>
 
-                {/* Tech Stack */}
-                <div className="flex flex-wrap gap-2">
-                  {project.tech.map((tech) => (
-                    <Badge
-                      key={tech}
-                      variant="secondary"
-                      className="bg-primary/10 text-primary border-primary/20 hover:bg-primary/20"
-                    >
-                      {tech}
-                    </Badge>
-                  ))}
-                </div>
+              {/* Tech Stack */}
+              <div className="flex flex-wrap gap-2 pt-4 border-t border-border/50">
+                {project.tech.map((tech) => (
+                  <Badge
+                    key={tech}
+                    variant="secondary"
+                    className="bg-secondary/80 text-muted-foreground border-0 hover:bg-primary/20 hover:text-primary transition-colors"
+                  >
+                    {tech}
+                  </Badge>
+                ))}
               </div>
             </div>
           ))}

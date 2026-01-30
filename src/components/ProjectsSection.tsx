@@ -1,5 +1,7 @@
 import { ExternalLink, Calendar } from "lucide-react";
 import { Badge } from "./ui/badge";
+import gearBrawlImg from "@/assets/projects/gear-brawl.png";
+import ajAutofixImg from "@/assets/projects/aj-autofix.jpg";
 
 interface Project {
   title: string;
@@ -8,6 +10,7 @@ interface Project {
   year: string;
   role: string;
   highlights: string[];
+  image?: string;
 }
 
 const projects: Project[] = [
@@ -33,6 +36,7 @@ const projects: Project[] = [
       "User-friendly interface for web and mobile platforms",
       "Notification, customer reviews and ratings, geolocation services"
     ],
+    image: ajAutofixImg,
   },
   {
     title: "Gear Brawl",
@@ -44,6 +48,7 @@ const projects: Project[] = [
       "3D game development with Unity engine",
       "Custom 3D assets and animations"
     ],
+    image: gearBrawlImg,
   },
   {
     title: "Bibilibeads",
@@ -87,53 +92,66 @@ const ProjectsSection = () => {
           {projects.map((project, index) => (
             <div
               key={project.title}
-              className="bg-card border border-border rounded-2xl p-6 md:p-8 hover:border-primary/50 transition-all duration-300 group opacity-0 animate-fade-in-up"
+              className="bg-card border border-border rounded-2xl overflow-hidden hover:border-primary/50 transition-all duration-300 group opacity-0 animate-fade-in-up"
               style={{ animationDelay: `${0.1 + index * 0.1}s` }}
             >
-              {/* Header */}
-              <div className="flex items-start justify-between mb-4">
-                <div>
-                  <h3 className="text-xl font-bold mb-1 group-hover:text-primary transition-colors">
-                    {project.title}
-                  </h3>
-                  <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                    <span className="flex items-center gap-1">
-                      <Calendar className="w-4 h-4" />
-                      {project.year}
-                    </span>
-                    <span>•</span>
-                    <span>{project.role}</span>
-                  </div>
+              {/* Project Image */}
+              {project.image && (
+                <div className="w-full h-48 overflow-hidden">
+                  <img 
+                    src={project.image} 
+                    alt={project.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
                 </div>
-                <ExternalLink className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
-              </div>
+              )}
+              
+              <div className="p-6 md:p-8">
+                {/* Header */}
+                <div className="flex items-start justify-between mb-4">
+                  <div>
+                    <h3 className="text-xl font-bold mb-1 group-hover:text-primary transition-colors">
+                      {project.title}
+                    </h3>
+                    <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                      <span className="flex items-center gap-1">
+                        <Calendar className="w-4 h-4" />
+                        {project.year}
+                      </span>
+                      <span>•</span>
+                      <span>{project.role}</span>
+                    </div>
+                  </div>
+                  <ExternalLink className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
+                </div>
 
-              {/* Description */}
-              <p className="text-muted-foreground mb-4 text-sm leading-relaxed">
-                {project.description}
-              </p>
+                {/* Description */}
+                <p className="text-muted-foreground mb-4 text-sm leading-relaxed">
+                  {project.description}
+                </p>
 
-              {/* Highlights */}
-              <ul className="mb-6 space-y-2">
-                {project.highlights.map((highlight, i) => (
-                  <li key={i} className="text-sm text-muted-foreground flex items-start gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2 flex-shrink-0" />
-                    {highlight}
-                  </li>
-                ))}
-              </ul>
+                {/* Highlights */}
+                <ul className="mb-6 space-y-2">
+                  {project.highlights.map((highlight, i) => (
+                    <li key={i} className="text-sm text-muted-foreground flex items-start gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2 flex-shrink-0" />
+                      {highlight}
+                    </li>
+                  ))}
+                </ul>
 
-              {/* Tech Stack */}
-              <div className="flex flex-wrap gap-2">
-                {project.tech.map((tech) => (
-                  <Badge
-                    key={tech}
-                    variant="secondary"
-                    className="bg-primary/10 text-primary border-primary/20 hover:bg-primary/20"
-                  >
-                    {tech}
-                  </Badge>
-                ))}
+                {/* Tech Stack */}
+                <div className="flex flex-wrap gap-2">
+                  {project.tech.map((tech) => (
+                    <Badge
+                      key={tech}
+                      variant="secondary"
+                      className="bg-primary/10 text-primary border-primary/20 hover:bg-primary/20"
+                    >
+                      {tech}
+                    </Badge>
+                  ))}
+                </div>
               </div>
             </div>
           ))}

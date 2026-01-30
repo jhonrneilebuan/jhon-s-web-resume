@@ -1,4 +1,4 @@
-import { Mail, Phone, MapPin, Send, Download } from "lucide-react";
+import { Mail, Phone, MapPin, Send, Download, ArrowUpRight } from "lucide-react";
 import { Button } from "./ui/button";
 
 const ContactSection = () => {
@@ -8,31 +8,41 @@ const ContactSection = () => {
       label: "Phone",
       value: "+63 950 823 0467",
       href: "tel:+639508230467",
+      color: "from-green-500/20 to-emerald-500/20",
     },
     {
       icon: Mail,
       label: "Email",
       value: "jhonebuan@gmail.com",
       href: "mailto:jhonebuan@gmail.com",
+      color: "from-blue-500/20 to-cyan-500/20",
     },
     {
       icon: MapPin,
       label: "Location",
       value: "Bantayan, Mangaldan, Pangasinan",
       href: null,
+      color: "from-purple-500/20 to-pink-500/20",
     },
   ];
 
   return (
-    <section id="contact" className="py-20">
-      <div className="container mx-auto px-4 md:px-6">
+    <section id="contact" className="py-24 relative overflow-hidden">
+      {/* Background decoration */}
+      <div className="absolute top-1/2 left-0 w-[400px] h-[400px] bg-primary/5 rounded-full blur-[150px] -translate-y-1/2" />
+      
+      <div className="container mx-auto px-4 md:px-6 relative z-10">
         {/* Section Header */}
         <div className="text-center mb-16">
-          <p className="text-primary font-mono text-sm mb-2">Get In Touch</p>
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Contact <span className="text-gradient">Me</span>
+          <span className="inline-block px-4 py-1.5 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4">
+            Contact
+          </span>
+          <h2 className="text-4xl md:text-5xl font-bold mb-6">
+            Get In <span className="text-gradient">Touch</span>
           </h2>
-          <div className="w-20 h-1 bg-gradient-primary mx-auto rounded-full" />
+          <p className="text-muted-foreground max-w-2xl mx-auto">
+            Have a project in mind or want to collaborate? Feel free to reach out!
+          </p>
         </div>
 
         <div className="max-w-4xl mx-auto">
@@ -41,49 +51,61 @@ const ContactSection = () => {
             {contactInfo.map((info, index) => (
               <div
                 key={info.label}
-                className="bg-card border border-border rounded-2xl p-6 text-center hover:border-primary/50 transition-all duration-300 hover:-translate-y-1 group opacity-0 animate-fade-in-up"
+                className="group relative bg-card/50 backdrop-blur-sm border border-border rounded-3xl p-6 text-center hover:border-primary/40 transition-all duration-500 opacity-0 animate-fade-in"
                 style={{ animationDelay: `${0.1 + index * 0.1}s` }}
               >
-                <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mx-auto mb-4 group-hover:bg-primary/20 transition-colors">
-                  <info.icon className="w-7 h-7 text-primary" />
+                {/* Gradient background on hover */}
+                <div className={`absolute inset-0 bg-gradient-to-br ${info.color} rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
+                
+                <div className="relative z-10">
+                  <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                    <info.icon className="w-8 h-8 text-primary" />
+                  </div>
+                  <h3 className="font-semibold mb-2 text-lg">{info.label}</h3>
+                  {info.href ? (
+                    <a
+                      href={info.href}
+                      className="text-sm text-muted-foreground hover:text-primary transition-colors inline-flex items-center gap-1 group/link"
+                    >
+                      {info.value}
+                      <ArrowUpRight className="w-3 h-3 opacity-0 group-hover/link:opacity-100 transition-opacity" />
+                    </a>
+                  ) : (
+                    <p className="text-sm text-muted-foreground">{info.value}</p>
+                  )}
                 </div>
-                <h3 className="font-semibold mb-2">{info.label}</h3>
-                {info.href ? (
-                  <a
-                    href={info.href}
-                    className="text-sm text-muted-foreground hover:text-primary transition-colors"
-                  >
-                    {info.value}
-                  </a>
-                ) : (
-                  <p className="text-sm text-muted-foreground">{info.value}</p>
-                )}
               </div>
             ))}
           </div>
 
           {/* CTA Box */}
-          <div className="bg-gradient-to-r from-primary/20 to-accent/10 border border-primary/30 rounded-2xl p-8 md:p-12 text-center opacity-0 animate-fade-in-up" style={{ animationDelay: "0.4s" }}>
-            <h3 className="text-2xl md:text-3xl font-bold mb-4">
-              Let's Work Together!
-            </h3>
-            <p className="text-muted-foreground mb-8 max-w-lg mx-auto">
-              I'm currently open to new opportunities and exciting projects. 
-              Feel free to reach out if you want to collaborate or just say hello!
-            </p>
-            <div className="flex flex-wrap gap-4 justify-center">
-              <Button asChild className="bg-gradient-primary text-primary-foreground hover:opacity-90 glow-primary px-8">
-                <a href="mailto:jhonebuan@gmail.com">
-                  <Send className="w-4 h-4 mr-2" />
-                  Send Message
-                </a>
-              </Button>
-              <Button asChild variant="outline" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground">
-                <a href="/resume/CV_EBUAN_JHON_R-NEIL_C.pdf" target="_blank" rel="noopener noreferrer">
-                  <Download className="w-4 h-4 mr-2" />
-                  Download CV
-                </a>
-              </Button>
+          <div className="relative bg-card/50 backdrop-blur-sm border border-primary/30 rounded-3xl p-10 md:p-14 text-center overflow-hidden opacity-0 animate-fade-in" style={{ animationDelay: "0.4s" }}>
+            {/* Decorative gradients */}
+            <div className="absolute top-0 left-1/4 w-64 h-64 bg-primary/10 rounded-full blur-[100px]" />
+            <div className="absolute bottom-0 right-1/4 w-64 h-64 bg-accent/10 rounded-full blur-[100px]" />
+            
+            <div className="relative z-10">
+              <h3 className="text-3xl md:text-4xl font-bold mb-4">
+                Let's Work <span className="text-gradient">Together!</span>
+              </h3>
+              <p className="text-muted-foreground mb-8 max-w-lg mx-auto text-lg">
+                I'm currently open to new opportunities and exciting projects. 
+                Feel free to reach out!
+              </p>
+              <div className="flex flex-wrap gap-4 justify-center">
+                <Button asChild size="lg" className="bg-gradient-primary text-primary-foreground hover:opacity-90 glow-primary px-8 rounded-full">
+                  <a href="mailto:jhonebuan@gmail.com">
+                    <Send className="w-5 h-5 mr-2" />
+                    Send Message
+                  </a>
+                </Button>
+                <Button asChild variant="outline" size="lg" className="border-primary/50 text-primary hover:bg-primary hover:text-primary-foreground rounded-full">
+                  <a href="/resume/CV_EBUAN_JHON_R-NEIL_C.pdf" target="_blank" rel="noopener noreferrer">
+                    <Download className="w-5 h-5 mr-2" />
+                    Download CV
+                  </a>
+                </Button>
+              </div>
             </div>
           </div>
         </div>

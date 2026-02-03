@@ -8,6 +8,7 @@ interface Project {
   year: string;
   role: string;
   highlights: string[];
+  link?: string;
 }
 
 const projects: Project[] = [
@@ -22,6 +23,7 @@ const projects: Project[] = [
       "Filters to match job seekers with roles based on skills and needs",
       "Successfully developed a mobile application for the project"
     ],
+    link: "https://disability-careers-gixk.onrender.com",
   },
   {
     title: "A&J AutoFix",
@@ -91,10 +93,15 @@ const ProjectsSection = () => {
 
         {/* Projects Grid */}
         <div className="grid lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
-          {projects.map((project, index) => (
-            <div
+          {projects.map((project, index) => {
+            const CardWrapper = project.link ? 'a' : 'div';
+            const cardProps = project.link ? { href: project.link, target: "_blank", rel: "noopener noreferrer" } : {};
+            
+            return (
+            <CardWrapper
               key={project.title}
-              className="group relative bg-card/50 backdrop-blur-sm border border-border rounded-3xl p-8 hover:border-primary/40 hover:bg-card/80 transition-all duration-500 opacity-0 animate-fade-in"
+              {...cardProps}
+              className="group relative bg-card/50 backdrop-blur-sm border border-border rounded-3xl p-8 hover:border-primary/40 hover:bg-card/80 transition-all duration-500 opacity-0 animate-fade-in block cursor-pointer"
               style={{ animationDelay: `${0.1 + index * 0.1}s` }}
             >
               {/* Project number badge */}
@@ -154,8 +161,9 @@ const ProjectsSection = () => {
                   </Badge>
                 ))}
               </div>
-            </div>
-          ))}
+            </CardWrapper>
+          );
+          })}
         </div>
       </div>
     </section>

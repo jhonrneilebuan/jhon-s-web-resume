@@ -92,15 +92,6 @@ const HeroSection = () => {
           </div>
         </div>
 
-        {/* Scroll indicator */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 opacity-0 animate-fade-in" style={{ animationDelay: "1s" }}>
-          <a href="#about" className="flex flex-col items-center gap-2 text-muted-foreground hover:text-primary transition-colors group">
-            <span className="text-xs tracking-wider uppercase">Scroll</span>
-            <div className="w-6 h-10 rounded-full border-2 border-current flex items-start justify-center p-2">
-              <div className="w-1 h-2 rounded-full bg-current animate-bounce" />
-            </div>
-          </a>
-        </div>
       </div>
     </section>
   );

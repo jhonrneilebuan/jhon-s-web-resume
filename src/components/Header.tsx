@@ -1,6 +1,12 @@
-import { Download, Menu, X } from "lucide-react";
+import { Download, Menu, X, Github, Linkedin, Facebook } from "lucide-react";
 import { Button } from "./ui/button";
 import { useState, useEffect } from "react";
+
+const socialLinks = [
+  { href: "https://github.com/jhonrneilebuan", icon: Github, label: "GitHub" },
+  { href: "https://www.linkedin.com/in/jhon-r-neil/", icon: Linkedin, label: "LinkedIn" },
+  { href: "https://www.facebook.com/jhonrneil.calimlim.04", icon: Facebook, label: "Facebook" },
+];
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -46,9 +52,21 @@ const Header = () => {
             ))}
           </nav>
 
-          {/* Resume Button */}
-          <div className="hidden md:flex items-center gap-4">
-            <Button asChild size="sm" className="bg-gradient-primary text-primary-foreground hover:opacity-90 glow-primary rounded-full px-6">
+          {/* Social Links & Resume Button */}
+          <div className="hidden md:flex items-center gap-3">
+            {socialLinks.map((social) => (
+              <a
+                key={social.label}
+                href={social.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-9 h-9 rounded-full bg-secondary/50 hover:bg-primary/20 flex items-center justify-center text-muted-foreground hover:text-primary transition-all duration-300 hover:scale-110"
+                aria-label={social.label}
+              >
+                <social.icon className="w-4 h-4" />
+              </a>
+            ))}
+            <Button asChild size="sm" className="bg-gradient-primary text-primary-foreground hover:opacity-90 glow-primary rounded-full px-6 ml-2">
               <a href="/resume/CV_EBUAN_JHON_R-NEIL_C.pdf" target="_blank" rel="noopener noreferrer">
                 <Download className="w-4 h-4 mr-2" />
                 Resume

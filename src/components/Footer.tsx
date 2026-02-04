@@ -1,4 +1,10 @@
-import { Heart, ArrowUp } from "lucide-react";
+import { Heart, ArrowUp, Github, Linkedin, Facebook } from "lucide-react";
+
+const socialLinks = [
+  { href: "https://github.com/jhonrneilebuan", icon: Github, label: "GitHub" },
+  { href: "https://www.linkedin.com/in/jhon-r-neil/", icon: Linkedin, label: "LinkedIn" },
+  { href: "https://www.facebook.com/jhonrneil.calimlim.04", icon: Facebook, label: "Facebook" },
+];
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -19,6 +25,22 @@ const Footer = () => {
               <Heart className="w-4 h-4 text-primary fill-primary animate-pulse" />
               by Jhon
             </p>
+          </div>
+
+          {/* Social Links */}
+          <div className="flex items-center gap-3">
+            {socialLinks.map((social) => (
+              <a
+                key={social.label}
+                href={social.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 rounded-full bg-secondary/50 hover:bg-primary/20 flex items-center justify-center text-muted-foreground hover:text-primary transition-all duration-300 hover:scale-110"
+                aria-label={social.label}
+              >
+                <social.icon className="w-5 h-5" />
+              </a>
+            ))}
           </div>
 
           {/* Nav Links */}

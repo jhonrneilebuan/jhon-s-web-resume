@@ -1,7 +1,12 @@
 import { Mail, Phone, MapPin, Send, Download, ArrowUpRight } from "lucide-react";
 import { Button } from "./ui/button";
+import { useScrollAnimation, useStaggeredAnimation } from "@/hooks/useScrollAnimation";
 
 const ContactSection = () => {
+  const headerAnimation = useScrollAnimation();
+  const { ref: cardsRef, isVisible: cardsVisible, getDelay } = useStaggeredAnimation(3);
+  const ctaAnimation = useScrollAnimation();
+
   const contactInfo = [
     {
       icon: Phone,
@@ -33,7 +38,14 @@ const ContactSection = () => {
       
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         {/* Section Header */}
-        <div className="text-center mb-10 md:mb-16">
+        <div 
+          ref={headerAnimation.ref}
+          className={`text-center mb-10 md:mb-16 transition-all duration-700 ${
+            headerAnimation.isVisible 
+              ? "opacity-100 translate-y-0" 
+              : "opacity-0 translate-y-8"
+          }`}
+        >
           <span className="inline-block px-3 py-1 md:px-4 md:py-1.5 bg-primary/10 text-primary rounded-full text-xs md:text-sm font-medium mb-3 md:mb-4">
             Contact
           </span>
@@ -47,12 +59,16 @@ const ContactSection = () => {
 
         <div className="max-w-4xl mx-auto">
           {/* Contact Cards */}
-          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 mb-8 md:mb-12">
+          <div ref={cardsRef} className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 mb-8 md:mb-12">
             {contactInfo.map((info, index) => (
               <div
                 key={info.label}
-                className="group relative bg-card/50 backdrop-blur-sm border border-border rounded-2xl md:rounded-3xl p-5 md:p-6 text-center hover:border-primary/40 transition-all duration-500 opacity-0 animate-fade-in"
-                style={{ animationDelay: `${0.1 + index * 0.1}s` }}
+                className={`group relative bg-card/50 backdrop-blur-sm border border-border rounded-2xl md:rounded-3xl p-5 md:p-6 text-center hover:border-primary/40 transition-all duration-500 ${
+                  cardsVisible 
+                    ? "opacity-100 translate-y-0" 
+                    : "opacity-0 translate-y-8"
+                }`}
+                style={getDelay(index)}
               >
                 {/* Gradient background on hover */}
                 <div className={`absolute inset-0 bg-gradient-to-br ${info.color} rounded-2xl md:rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
@@ -79,7 +95,14 @@ const ContactSection = () => {
           </div>
 
           {/* CTA Box */}
-          <div className="relative bg-card/50 backdrop-blur-sm border border-primary/30 rounded-2xl md:rounded-3xl p-8 md:p-10 lg:p-14 text-center overflow-hidden opacity-0 animate-fade-in" style={{ animationDelay: "0.4s" }}>
+          <div 
+            ref={ctaAnimation.ref}
+            className={`relative bg-card/50 backdrop-blur-sm border border-primary/30 rounded-2xl md:rounded-3xl p-8 md:p-10 lg:p-14 text-center overflow-hidden transition-all duration-700 ${
+              ctaAnimation.isVisible 
+                ? "opacity-100 scale-100" 
+                : "opacity-0 scale-95"
+            }`}
+          >
             {/* Decorative gradients */}
             <div className="absolute top-0 left-1/4 w-48 md:w-64 h-48 md:h-64 bg-primary/10 rounded-full blur-[80px] md:blur-[100px]" />
             <div className="absolute bottom-0 right-1/4 w-48 md:w-64 h-48 md:h-64 bg-accent/10 rounded-full blur-[80px] md:blur-[100px]" />

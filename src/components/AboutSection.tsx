@@ -1,6 +1,11 @@
 import { GraduationCap, Code, Smartphone, Zap } from "lucide-react";
+import { useScrollAnimation, useStaggeredAnimation } from "@/hooks/useScrollAnimation";
 
 const AboutSection = () => {
+  const headerAnimation = useScrollAnimation();
+  const cardAnimation = useScrollAnimation();
+  const { ref: gridRef, isVisible: gridVisible, getDelay } = useStaggeredAnimation(3);
+
   const highlights = [
     {
       icon: GraduationCap,
@@ -30,7 +35,14 @@ const AboutSection = () => {
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         <div className="max-w-5xl mx-auto">
           {/* Section Header */}
-          <div className="text-center mb-10 md:mb-16">
+          <div 
+            ref={headerAnimation.ref}
+            className={`text-center mb-10 md:mb-16 transition-all duration-700 ${
+              headerAnimation.isVisible 
+                ? "opacity-100 translate-y-0" 
+                : "opacity-0 translate-y-8"
+            }`}
+          >
             <span className="inline-block px-3 py-1 md:px-4 md:py-1.5 bg-primary/10 text-primary rounded-full text-xs md:text-sm font-medium mb-3 md:mb-4">
               About Me
             </span>
@@ -40,7 +52,14 @@ const AboutSection = () => {
           </div>
 
           {/* Profile Summary Card */}
-          <div className="relative bg-card/50 backdrop-blur-sm border border-border rounded-2xl md:rounded-3xl p-6 md:p-8 lg:p-12 mb-10 md:mb-16 overflow-hidden">
+          <div 
+            ref={cardAnimation.ref}
+            className={`relative bg-card/50 backdrop-blur-sm border border-border rounded-2xl md:rounded-3xl p-6 md:p-8 lg:p-12 mb-10 md:mb-16 overflow-hidden transition-all duration-700 delay-100 ${
+              cardAnimation.isVisible 
+                ? "opacity-100 translate-y-0" 
+                : "opacity-0 translate-y-8"
+            }`}
+          >
             {/* Decorative gradient */}
             <div className="absolute top-0 right-0 w-48 md:w-64 h-48 md:h-64 bg-gradient-primary opacity-5 blur-3xl" />
             
@@ -64,12 +83,16 @@ const AboutSection = () => {
           </div>
 
           {/* Highlights Grid */}
-          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
+          <div ref={gridRef} className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
             {highlights.map((item, index) => (
               <div
                 key={item.title}
-                className="group relative bg-card/50 backdrop-blur-sm border border-border rounded-xl md:rounded-2xl p-5 md:p-6 hover:border-primary/40 transition-all duration-500 opacity-0 animate-fade-in"
-                style={{ animationDelay: `${0.2 + index * 0.1}s` }}
+                className={`group relative bg-card/50 backdrop-blur-sm border border-border rounded-xl md:rounded-2xl p-5 md:p-6 hover:border-primary/40 transition-all duration-500 ${
+                  gridVisible 
+                    ? "opacity-100 translate-y-0" 
+                    : "opacity-0 translate-y-8"
+                }`}
+                style={getDelay(index)}
               >
                 {/* Gradient background on hover */}
                 <div className={`absolute inset-0 bg-gradient-to-br ${item.color} rounded-xl md:rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />

@@ -2,6 +2,7 @@ import { Award, ExternalLink } from "lucide-react";
 import phinmaIese from "@/assets/certificates/phinma-iese.jpg";
 import designThinking from "@/assets/certificates/design-thinking.jpg";
 import pythonSololearn from "@/assets/certificates/python-sololearn.png";
+import { useScrollAnimation, useStaggeredAnimation } from "@/hooks/useScrollAnimation";
 
 interface Certificate {
   title: string;
@@ -32,6 +33,9 @@ const certificates: Certificate[] = [
 ];
 
 const CertificatesSection = () => {
+  const headerAnimation = useScrollAnimation();
+  const { ref: gridRef, isVisible: gridVisible, getDelay } = useStaggeredAnimation(certificates.length);
+
   return (
     <section id="certificates" className="py-24 relative overflow-hidden">
       {/* Background decoration */}
@@ -40,7 +44,14 @@ const CertificatesSection = () => {
       
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         {/* Section Header */}
-        <div className="text-center mb-16">
+        <div 
+          ref={headerAnimation.ref}
+          className={`text-center mb-16 transition-all duration-700 ${
+            headerAnimation.isVisible 
+              ? "opacity-100 translate-y-0" 
+              : "opacity-0 translate-y-8"
+          }`}
+        >
           <span className="inline-flex items-center gap-2 px-4 py-1.5 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4">
             <Award className="w-4 h-4" />
             Achievements
@@ -54,12 +65,16 @@ const CertificatesSection = () => {
         </div>
 
         {/* Certificates Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <div ref={gridRef} className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
           {certificates.map((cert, index) => (
             <div
               key={cert.title}
-              className="group bg-card/50 backdrop-blur-sm border border-border rounded-3xl overflow-hidden hover:border-primary/40 transition-all duration-500 opacity-0 animate-fade-in"
-              style={{ animationDelay: `${0.1 + index * 0.15}s` }}
+              className={`group bg-card/50 backdrop-blur-sm border border-border rounded-3xl overflow-hidden hover:border-primary/40 transition-all duration-500 ${
+                gridVisible 
+                  ? "opacity-100 translate-y-0" 
+                  : "opacity-0 translate-y-8"
+              }`}
+              style={getDelay(index)}
             >
               {/* Certificate Image */}
               <div className="relative aspect-[4/3] overflow-hidden bg-secondary/30">

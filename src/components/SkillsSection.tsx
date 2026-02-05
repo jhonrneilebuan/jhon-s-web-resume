@@ -1,4 +1,5 @@
 import { Cpu, Code2, Wrench, Users, Zap } from "lucide-react";
+import { useScrollAnimation, useStaggeredAnimation } from "@/hooks/useScrollAnimation";
 
 const technicalSkills = [
   { name: "Frontend Development", icon: "🎨" },
@@ -26,6 +27,12 @@ const coreSkills = [
 ];
 
 const SkillsSection = () => {
+  const headerAnimation = useScrollAnimation();
+  const technicalAnimation = useScrollAnimation();
+  const languagesAnimation = useScrollAnimation();
+  const frameworksAnimation = useScrollAnimation();
+  const coreAnimation = useScrollAnimation();
+
   return (
     <section id="skills" className="py-16 md:py-24 bg-secondary/20 relative overflow-hidden">
       {/* Background decoration */}
@@ -34,7 +41,14 @@ const SkillsSection = () => {
       
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         {/* Section Header */}
-        <div className="text-center mb-10 md:mb-16">
+        <div 
+          ref={headerAnimation.ref}
+          className={`text-center mb-10 md:mb-16 transition-all duration-700 ${
+            headerAnimation.isVisible 
+              ? "opacity-100 translate-y-0" 
+              : "opacity-0 translate-y-8"
+          }`}
+        >
           <span className="inline-flex items-center gap-2 px-3 py-1 md:px-4 md:py-1.5 bg-primary/10 text-primary rounded-full text-xs md:text-sm font-medium mb-3 md:mb-4">
             <Zap className="w-3.5 h-3.5 md:w-4 md:h-4" />
             Expertise
@@ -49,7 +63,14 @@ const SkillsSection = () => {
 
         <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-6 md:gap-8">
           {/* Technical Skills - Card Grid */}
-          <div className="bg-card/50 backdrop-blur-sm border border-border rounded-2xl md:rounded-3xl p-6 md:p-8 hover:border-primary/30 transition-colors">
+          <div 
+            ref={technicalAnimation.ref}
+            className={`bg-card/50 backdrop-blur-sm border border-border rounded-2xl md:rounded-3xl p-6 md:p-8 hover:border-primary/30 transition-all duration-700 ${
+              technicalAnimation.isVisible 
+                ? "opacity-100 translate-y-0" 
+                : "opacity-0 translate-y-8"
+            }`}
+          >
             <div className="flex items-center gap-3 mb-6 md:mb-8">
               <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl md:rounded-2xl bg-gradient-primary flex items-center justify-center shadow-lg">
                 <Cpu className="w-5 h-5 md:w-6 md:h-6 text-primary-foreground" />
@@ -61,8 +82,12 @@ const SkillsSection = () => {
               {technicalSkills.map((skill, index) => (
                 <div
                   key={skill.name}
-                  className="flex items-center gap-3 md:gap-4 p-3 md:p-4 bg-secondary/50 hover:bg-primary/10 rounded-xl md:rounded-2xl transition-all duration-300 group cursor-default opacity-0 animate-fade-in"
-                  style={{ animationDelay: `${0.1 + index * 0.1}s` }}
+                  className={`flex items-center gap-3 md:gap-4 p-3 md:p-4 bg-secondary/50 hover:bg-primary/10 rounded-xl md:rounded-2xl transition-all duration-300 group cursor-default ${
+                    technicalAnimation.isVisible 
+                      ? "opacity-100 translate-x-0" 
+                      : "opacity-0 -translate-x-4"
+                  }`}
+                  style={{ transitionDelay: `${index * 100}ms` }}
                 >
                   <span className="text-xl md:text-2xl group-hover:scale-110 transition-transform">{skill.icon}</span>
                   <span className="text-sm md:text-base font-medium group-hover:text-primary transition-colors">{skill.name}</span>
@@ -74,7 +99,14 @@ const SkillsSection = () => {
           {/* Languages & Frameworks */}
           <div className="space-y-4 md:space-y-6">
             {/* Languages */}
-            <div className="bg-card/50 backdrop-blur-sm border border-border rounded-2xl md:rounded-3xl p-6 md:p-8 hover:border-primary/30 transition-colors">
+            <div 
+              ref={languagesAnimation.ref}
+              className={`bg-card/50 backdrop-blur-sm border border-border rounded-2xl md:rounded-3xl p-6 md:p-8 hover:border-primary/30 transition-all duration-700 delay-100 ${
+                languagesAnimation.isVisible 
+                  ? "opacity-100 translate-y-0" 
+                  : "opacity-0 translate-y-8"
+              }`}
+            >
               <div className="flex items-center gap-3 mb-4 md:mb-6">
                 <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl md:rounded-2xl bg-gradient-primary flex items-center justify-center shadow-lg">
                   <Code2 className="w-5 h-5 md:w-6 md:h-6 text-primary-foreground" />
@@ -86,8 +118,12 @@ const SkillsSection = () => {
                 {programmingLanguages.map((lang, index) => (
                   <span
                     key={lang}
-                    className="px-3 py-2 md:px-4 md:py-2.5 bg-secondary/80 hover:bg-primary hover:text-primary-foreground rounded-lg md:rounded-xl text-xs md:text-sm font-medium transition-all duration-300 cursor-default opacity-0 animate-fade-in hover:scale-105"
-                    style={{ animationDelay: `${0.1 + index * 0.05}s` }}
+                    className={`px-3 py-2 md:px-4 md:py-2.5 bg-secondary/80 hover:bg-primary hover:text-primary-foreground rounded-lg md:rounded-xl text-xs md:text-sm font-medium transition-all duration-300 cursor-default hover:scale-105 ${
+                      languagesAnimation.isVisible 
+                        ? "opacity-100 scale-100" 
+                        : "opacity-0 scale-90"
+                    }`}
+                    style={{ transitionDelay: `${index * 50}ms` }}
                   >
                     {lang}
                   </span>
@@ -96,7 +132,14 @@ const SkillsSection = () => {
             </div>
 
             {/* Frameworks */}
-            <div className="bg-card/50 backdrop-blur-sm border border-border rounded-2xl md:rounded-3xl p-6 md:p-8 hover:border-primary/30 transition-colors">
+            <div 
+              ref={frameworksAnimation.ref}
+              className={`bg-card/50 backdrop-blur-sm border border-border rounded-2xl md:rounded-3xl p-6 md:p-8 hover:border-primary/30 transition-all duration-700 delay-200 ${
+                frameworksAnimation.isVisible 
+                  ? "opacity-100 translate-y-0" 
+                  : "opacity-0 translate-y-8"
+              }`}
+            >
               <div className="flex items-center gap-3 mb-4 md:mb-6">
                 <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl md:rounded-2xl bg-gradient-primary flex items-center justify-center shadow-lg">
                   <Wrench className="w-5 h-5 md:w-6 md:h-6 text-primary-foreground" />
@@ -108,8 +151,12 @@ const SkillsSection = () => {
                 {frameworks.map((framework, index) => (
                   <span
                     key={framework}
-                    className="px-3 py-2 md:px-4 md:py-2.5 bg-primary/10 text-primary rounded-lg md:rounded-xl text-xs md:text-sm font-medium hover:bg-primary hover:text-primary-foreground transition-all duration-300 cursor-default opacity-0 animate-fade-in hover:scale-105"
-                    style={{ animationDelay: `${0.1 + index * 0.05}s` }}
+                    className={`px-3 py-2 md:px-4 md:py-2.5 bg-primary/10 text-primary rounded-lg md:rounded-xl text-xs md:text-sm font-medium hover:bg-primary hover:text-primary-foreground transition-all duration-300 cursor-default hover:scale-105 ${
+                      frameworksAnimation.isVisible 
+                        ? "opacity-100 scale-100" 
+                        : "opacity-0 scale-90"
+                    }`}
+                    style={{ transitionDelay: `${index * 50}ms` }}
                   >
                     {framework}
                   </span>
@@ -121,7 +168,14 @@ const SkillsSection = () => {
 
         {/* Core Work Skills */}
         <div className="max-w-4xl mx-auto mt-6 md:mt-8">
-          <div className="bg-card/50 backdrop-blur-sm border border-border rounded-2xl md:rounded-3xl p-6 md:p-8 hover:border-primary/30 transition-colors">
+          <div 
+            ref={coreAnimation.ref}
+            className={`bg-card/50 backdrop-blur-sm border border-border rounded-2xl md:rounded-3xl p-6 md:p-8 hover:border-primary/30 transition-all duration-700 ${
+              coreAnimation.isVisible 
+                ? "opacity-100 translate-y-0" 
+                : "opacity-0 translate-y-8"
+            }`}
+          >
             <div className="flex items-center gap-3 mb-6 md:mb-8">
               <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl md:rounded-2xl bg-gradient-primary flex items-center justify-center shadow-lg">
                 <Users className="w-5 h-5 md:w-6 md:h-6 text-primary-foreground" />
@@ -133,8 +187,12 @@ const SkillsSection = () => {
               {coreSkills.map((skill, index) => (
                 <div
                   key={skill.name}
-                  className="flex items-center gap-2.5 md:gap-3 p-3 md:p-4 bg-secondary/50 hover:bg-primary/10 rounded-xl md:rounded-2xl transition-all duration-300 cursor-default opacity-0 animate-fade-in group hover:scale-105"
-                  style={{ animationDelay: `${0.1 + index * 0.1}s` }}
+                  className={`flex items-center gap-2.5 md:gap-3 p-3 md:p-4 bg-secondary/50 hover:bg-primary/10 rounded-xl md:rounded-2xl transition-all duration-300 cursor-default group hover:scale-105 ${
+                    coreAnimation.isVisible 
+                      ? "opacity-100 translate-y-0" 
+                      : "opacity-0 translate-y-4"
+                  }`}
+                  style={{ transitionDelay: `${index * 100}ms` }}
                 >
                   <span className="text-xl md:text-2xl group-hover:scale-110 transition-transform">{skill.icon}</span>
                   <span className="text-xs md:text-sm font-medium group-hover:text-primary transition-colors">{skill.name}</span>

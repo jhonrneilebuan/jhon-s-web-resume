@@ -1,5 +1,6 @@
 import { Calendar, Folder, ArrowUpRight } from "lucide-react";
 import { Badge } from "./ui/badge";
+import { useScrollAnimation, useStaggeredAnimation } from "@/hooks/useScrollAnimation";
 
 interface Project {
   title: string;
@@ -72,6 +73,9 @@ const projects: Project[] = [
 ];
 
 const ProjectsSection = () => {
+  const headerAnimation = useScrollAnimation();
+  const { ref: gridRef, isVisible: gridVisible, getDelay } = useStaggeredAnimation(projects.length);
+
   return (
     <section id="projects" className="py-24 relative overflow-hidden">
       {/* Background decoration */}
@@ -79,7 +83,14 @@ const ProjectsSection = () => {
       
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         {/* Section Header */}
-        <div className="text-center mb-20">
+        <div 
+          ref={headerAnimation.ref}
+          className={`text-center mb-20 transition-all duration-700 ${
+            headerAnimation.isVisible 
+              ? "opacity-100 translate-y-0" 
+              : "opacity-0 translate-y-8"
+          }`}
+        >
           <span className="inline-block px-4 py-1.5 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4">
             Portfolio
           </span>
@@ -92,7 +103,7 @@ const ProjectsSection = () => {
         </div>
 
         {/* Projects Grid */}
-        <div className="grid lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
+        <div ref={gridRef} className="grid lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
           {projects.map((project, index) => {
             const CardWrapper = project.link ? 'a' : 'div';
             const cardProps = project.link ? { href: project.link, target: "_blank", rel: "noopener noreferrer" } : {};
@@ -101,8 +112,12 @@ const ProjectsSection = () => {
             <CardWrapper
               key={project.title}
               {...cardProps}
-              className="group relative bg-card/50 backdrop-blur-sm border border-border rounded-3xl p-8 hover:border-primary/40 hover:bg-card/80 transition-all duration-500 opacity-0 animate-fade-in block cursor-pointer"
-              style={{ animationDelay: `${0.1 + index * 0.1}s` }}
+              className={`group relative bg-card/50 backdrop-blur-sm border border-border rounded-3xl p-8 hover:border-primary/40 hover:bg-card/80 transition-all duration-500 block cursor-pointer ${
+                gridVisible 
+                  ? "opacity-100 translate-y-0" 
+                  : "opacity-0 translate-y-8"
+              }`}
+              style={getDelay(index)}
             >
               {/* Project number badge */}
               <div className="absolute -top-3 -left-3 w-10 h-10 rounded-xl bg-gradient-primary flex items-center justify-center text-primary-foreground font-bold text-sm shadow-lg">

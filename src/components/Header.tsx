@@ -1,6 +1,7 @@
-import { Download, Menu, X, Github, Linkedin, Facebook } from "lucide-react";
+import { Download, Menu, X, Github, Linkedin, Facebook, Sun, Moon } from "lucide-react";
 import { Button } from "./ui/button";
 import { useState, useEffect } from "react";
+import { useTheme } from "next-themes";
 
 const socialLinks = [
   { href: "https://github.com/jhonrneilebuan", icon: Github, label: "GitHub" },
@@ -12,6 +13,12 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("");
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -89,6 +96,14 @@ const Header = () => {
 
           {/* Social Links & Resume Button */}
           <div className="hidden md:flex items-center gap-3">
+            {/* Theme Toggle */}
+            <button
+              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+              className="w-9 h-9 rounded-full bg-secondary/50 hover:bg-primary/20 flex items-center justify-center text-muted-foreground hover:text-primary transition-all duration-300 hover:scale-110"
+              aria-label="Toggle theme"
+            >
+              {mounted && (theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />)}
+            </button>
             {socialLinks.map((social) => (
               <a
                 key={social.label}
@@ -122,6 +137,14 @@ const Header = () => {
         {isMenuOpen && (
           <div className="md:hidden py-6 border-t border-border animate-fade-in bg-background/95 backdrop-blur-xl">
             <nav className="flex flex-col gap-2">
+              {/* Mobile Theme Toggle */}
+              <button
+                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                className="flex items-center gap-3 px-4 py-3 text-sm text-muted-foreground hover:text-primary hover:bg-secondary/50 rounded-xl transition-all duration-300"
+              >
+                {mounted && (theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />)}
+                {mounted && (theme === "dark" ? "Light Mode" : "Dark Mode")}
+              </button>
               {navLinks.map((link) => {
                 const isActive = activeSection === link.href.slice(1);
                 return (

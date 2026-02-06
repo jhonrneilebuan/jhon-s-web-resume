@@ -1,14 +1,23 @@
-import { ArrowDown, Mail, Phone, MapPin, Sparkles } from "lucide-react";
+import { Mail, Phone, MapPin, Sparkles } from "lucide-react";
 import { Button } from "./ui/button";
 import profileImage from "@/assets/profile.jpg";
+import { useMouseParallax } from "@/hooks/useParallax";
 
 const HeroSection = () => {
+  const mouseParallax = useMouseParallax(0.015);
+
   return (
     <section className="min-h-screen flex items-center justify-center pt-24 md:pt-20 pb-12 relative overflow-hidden">
-      {/* Background effects */}
+      {/* Background effects with parallax */}
       <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-secondary/20" />
-      <div className="absolute top-20 left-1/4 w-48 md:w-72 h-48 md:h-72 bg-primary/10 rounded-full blur-[100px] md:blur-[120px]" />
-      <div className="absolute bottom-20 right-1/4 w-64 md:w-96 h-64 md:h-96 bg-primary/5 rounded-full blur-[120px] md:blur-[150px]" />
+      <div 
+        className="absolute top-20 left-1/4 w-48 md:w-72 h-48 md:h-72 bg-primary/10 rounded-full blur-[100px] md:blur-[120px] transition-transform duration-100 ease-out"
+        style={{ transform: `translate(${mouseParallax.x * 2}px, ${mouseParallax.y * 2}px)` }}
+      />
+      <div 
+        className="absolute bottom-20 right-1/4 w-64 md:w-96 h-64 md:h-96 bg-primary/5 rounded-full blur-[120px] md:blur-[150px] transition-transform duration-100 ease-out"
+        style={{ transform: `translate(${mouseParallax.x * -1.5}px, ${mouseParallax.y * -1.5}px)` }}
+      />
       
       {/* Grid pattern overlay */}
       <div className="absolute inset-0 bg-[linear-gradient(hsl(var(--border)/0.3)_1px,transparent_1px),linear-gradient(90deg,hsl(var(--border)/0.3)_1px,transparent_1px)] bg-[size:40px_40px] md:bg-[size:60px_60px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,black_40%,transparent_100%)]" />

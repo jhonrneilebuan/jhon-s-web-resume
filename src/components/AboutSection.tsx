@@ -1,10 +1,13 @@
 import { GraduationCap, Code, Smartphone, Zap, Globe } from "lucide-react";
 import { useScrollAnimation, useStaggeredAnimation } from "@/hooks/useScrollAnimation";
+import { useParallax } from "@/hooks/useParallax";
 
 const AboutSection = () => {
   const headerAnimation = useScrollAnimation();
   const cardAnimation = useScrollAnimation();
   const { ref: gridRef, isVisible: gridVisible, getDelay } = useStaggeredAnimation(4);
+  const parallax1 = useParallax({ speed: 0.15, direction: "up" });
+  const parallax2 = useParallax({ speed: 0.1, direction: "down" });
 
   const highlights = [
     {
@@ -34,10 +37,17 @@ const AboutSection = () => {
   ];
 
   return (
-    <section id="about" className="py-20 md:py-32 bg-secondary/30 relative overflow-hidden">
-      {/* Background decorations */}
-      <div className="absolute top-0 left-0 w-[400px] md:w-[600px] h-[400px] md:h-[600px] bg-primary/5 rounded-full blur-[150px] md:blur-[200px] -translate-x-1/2 -translate-y-1/2" />
-      <div className="absolute bottom-0 right-0 w-[300px] md:w-[400px] h-[300px] md:h-[400px] bg-accent/5 rounded-full blur-[120px] md:blur-[150px] translate-x-1/2 translate-y-1/2" />
+    <section id="about" className="py-20 md:py-32 bg-secondary/30 relative overflow-hidden" ref={parallax1.ref}>
+      {/* Background decorations with parallax */}
+      <div 
+        className="absolute top-0 left-0 w-[400px] md:w-[600px] h-[400px] md:h-[600px] bg-primary/5 rounded-full blur-[150px] md:blur-[200px] -translate-x-1/2 -translate-y-1/2 transition-transform duration-300 ease-out"
+        style={{ transform: `translate(-50%, calc(-50% + ${parallax1.offset * 0.5}px))` }}
+      />
+      <div 
+        ref={parallax2.ref}
+        className="absolute bottom-0 right-0 w-[300px] md:w-[400px] h-[300px] md:h-[400px] bg-accent/5 rounded-full blur-[120px] md:blur-[150px] translate-x-1/2 translate-y-1/2 transition-transform duration-300 ease-out"
+        style={{ transform: `translate(50%, calc(50% + ${parallax2.offset * 0.3}px))` }}
+      />
       
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         <div className="max-w-6xl mx-auto">

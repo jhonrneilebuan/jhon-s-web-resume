@@ -62,7 +62,12 @@ const HeroSection = () => {
             
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-3 md:mb-4 opacity-0 animate-fade-in" style={{ animationDelay: "0.4s" }}>
               Hi, I'm{" "}
-              <span className="text-gradient block lg:inline">Jhon R-Neil</span>
+              <span className="text-gradient block lg:inline">
+                {displayedText}
+                <span 
+                  className={`inline-block w-[3px] h-[0.9em] bg-primary ml-1 align-middle ${isComplete ? 'animate-pulse' : 'animate-[blink_0.8s_infinite]'}`}
+                />
+              </span>
             </h1>
             
             <p className="text-lg sm:text-xl md:text-2xl text-muted-foreground mb-4 md:mb-6 opacity-0 animate-fade-in" style={{ animationDelay: "0.5s" }}>

@@ -82,6 +82,10 @@ export default {
           "0%, 100%": { boxShadow: "0 0 20px hsl(173 80% 50% / 0.3)" },
           "50%": { boxShadow: "0 0 40px hsl(173 80% 50% / 0.5)" },
         },
+        "blink": {
+          "0%, 50%": { opacity: "1" },
+          "51%, 100%": { opacity: "0" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",

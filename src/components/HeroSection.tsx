@@ -2,9 +2,15 @@ import { Mail, Phone, MapPin, Sparkles } from "lucide-react";
 import { Button } from "./ui/button";
 import profileImage from "@/assets/profile.jpg";
 import { useMouseParallax } from "@/hooks/useParallax";
+import { useTypingAnimation } from "@/hooks/useTypingAnimation";
 
 const HeroSection = () => {
   const mouseParallax = useMouseParallax(0.015);
+  const { displayedText, isComplete } = useTypingAnimation({
+    text: "Jhon R-Neil",
+    speed: 100,
+    delay: 600,
+  });
 
   return (
     <section className="min-h-screen flex items-center justify-center pt-24 md:pt-20 pb-12 relative overflow-hidden">
